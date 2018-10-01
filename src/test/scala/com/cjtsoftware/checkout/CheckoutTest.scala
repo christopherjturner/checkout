@@ -12,8 +12,8 @@ class CheckoutTest extends FlatSpec {
     assert( Checkout(Seq("apple")) == BigDecimal(0.60) )
   }
 
-  "Three apples" should "cost 1.80" in {
-    assert( Checkout(Seq("apple", "apple", "apple"))  == BigDecimal(1.80) )
+  "Three apples" should "cost 1.20 with the discount applied" in {
+    assert( Checkout(Seq("apple", "apple", "apple"))  == BigDecimal(1.20) )
   }
 
 
@@ -26,10 +26,18 @@ class CheckoutTest extends FlatSpec {
     assert( Checkout(Seq("orange", "orange")) == BigDecimal(0.50))
   }
 
-  "Two oranges and two apples" should "cost 1.70" in {
-    assert( Checkout(Seq("apple", "orange", "apple", "orange")) == BigDecimal(1.70))
+
+  "Three Oranges" should "cost 0.50 with the discount applied" in {
+    assert( Checkout(Seq("orange", "orange", "orange")) == BigDecimal(0.50))
   }
 
+  "Two oranges and two apples" should "cost 1.10 with discount" in {
+    assert( Checkout(Seq("apple", "orange", "apple", "orange")) == BigDecimal(1.10))
+  }
+
+  "Apple, Apple, Orange, Apple" should "cost 1.45 with discount" in {
+    assert( Checkout(Seq("apple", "apple", "orange", "apple")) == BigDecimal(1.45))
+  }
 
   "Items not in the price list" should "be silently dropped" in {
     assert( Checkout(Seq("cake", "newspaper", "pineapple")) == BigDecimal(0.00) )
