@@ -19,7 +19,11 @@ trait Offer {
 
 /**
   * Three for two is basically a more catchy sounding buy 3 get 1 free
-  * so we can use the same method for both offers, just with different parameters
+  * we can use the same method for both the buy 1 get 1 free and 3 for 2 offer
+  *
+  * @param discountedItem
+  * @param x number of items needed to activate discount
+  * @param y number of free items
   */
 class BuyXGetYFree(discountedItem: Item, x: Int, y:Int) extends Offer {
 
