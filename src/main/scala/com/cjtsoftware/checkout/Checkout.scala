@@ -30,8 +30,8 @@ object Checkout {
   def apply(itemNames: Seq[String]) : BigDecimal = {
 
     val items             = itemNames.flatMap(priceList.get)
-    val itemsWithDiscount = calculateDiscount(items)
-    val total             = calculateTotal(itemsWithDiscount)
+    val discounts         = offers.flatMap(_.discount(items))
+    val total             = calculateTotal(items ++ discounts)
 
     total.setScale(2, RoundingMode.HALF_EVEN)
   }
@@ -41,17 +41,6 @@ object Checkout {
     items.map(_.price).sum
   }
 
-
-  /**
-    * Processes each offer and adds the resulting discount to the Item list.
-    * Discounts have a negative price value, so the calculateTotal method should
-    * just factor those into the final bill
-    *
-    * E.g. [(apple, 0.60), (apple, 0.60)] becomes [(apple, 0.60), (apple, 0.60), (discount, -0.60)]
-    */
-  protected def calculateDiscount(items: Seq[Item]) : Seq[Item] = {
-    items ++ offers.flatMap(_.discount(items))
-  }
 
 }
 
